@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="monetag" content="fbe702def050f4b6e428753e33c36cf1">
+    
+    <title>Play & Earn - Reward Game</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #eef2f3; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .app-card { background: white; width: 350px; padding: 25px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; }
+        .header { background: #2ecc71; color: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
+        #balance { font-size: 32px; margin: 5px 0; }
+        .quiz-area { margin: 25px 0; }
+        #question { font-size: 22px; margin-bottom: 15px; font-weight: bold; }
+        input { width: 80%; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-size: 18px; margin-bottom: 10px; text-align: center; }
+        button { width: 85%; padding: 12px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; margin-bottom: 10px;}
+        .btn-submit { background: #3498db; color: white; }
+        .btn-withdraw { background: #f1c40f; color: #333; }
+        .btn-withdraw:disabled { background: #ccc; cursor: not-allowed; }
+        .bonus-section { margin-top: 20px; border: 2px dashed #3498db; padding: 10px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="app-card">
+    <div class="header">
+        <p>Current Balance</p>
+        <h1 id="balance">₹0.00</h1>
+    </div>
+
+    <div class="quiz-area">
+        <div id="question">Loading Question...</div>
+        <input type="number" id="answerInput" placeholder="Enter Answer">
+        <button class="btn-submit" onclick="checkAnswer()">SUBMIT & EARN</button>
+        <button id="withdrawBtn" class="btn-withdraw" onclick="alert('Min withdrawal is ₹50')" disabled>WITHDRAW (Min ₹50)</button>
+    </div>
+
+    <div class="bonus-section">
+        <p style="color: #3498db; font-weight: bold;">🚀 Mega Bonus Task</p>
+        <p style="font-size: 12px;">Click to complete 1 task and earn ₹5.00 instantly!</p>
+        <button onclick="openBonusTask()" style="background: #e67e22; color: white;">CLICK TO EARN ₹5</button>
+    </div>
+</div>
+
+<script>
+    let currentAns;
+    let earnings = 0.0;
+    const minWithdraw = 50.0;
+
+    function generate() {
+        let n1 = Math.floor(Math.random() * 15) + 1;
+        let n2 = Math.floor(Math.random() * 15) + 1;
+        currentAns = n1 + n2;
+        document.getElementById('question').innerText = `What is ${n1} + ${n2}?`;
+        document.getElementById('answerInput').value = '';
+    }
+
+    function checkAnswer() {
+        let val = document.getElementById('answerInput').value;
+        if(val == currentAns) {
+            earnings += 0.50; 
+            updateUI();
+            alert("Correct! ₹0.50 added to wallet.");
+            generate();
+        } else {
+            alert("Wrong answer!");
+        }
+    }
+
+    function updateUI() {
+        document.getElementById('balance').innerText = `₹${earnings.toFixed(2)}`;
+        if(earnings >= minWithdraw) {
+            document.getElementById('withdrawBtn').disabled = false;
+        }
+    }
+
+    function openBonusTask() {
+        alert("Bonus task ad link will be added here soon.");
+    }
+
+    generate();
+</script>
+</body>
+</html>
